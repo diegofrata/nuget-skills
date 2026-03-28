@@ -1,4 +1,4 @@
-# NuGetSkills
+# nuget-skills
 
 A .NET CLI tool that discovers and loads AI coding skills bundled with NuGet packages. Works with Claude Code, Cursor, Copilot, Codex, Windsurf, Cline, and Goose.
 
@@ -26,7 +26,7 @@ For the .NET ecosystem, this is the equivalent of what [npm-agentskills](https:/
 
 ```shell
 # Install the tool
-dotnet tool install -g NuGetSkills
+dotnet tool install -g nuget-skills
 
 # Initialize in your project (auto-detects installed agents)
 cd your-dotnet-project

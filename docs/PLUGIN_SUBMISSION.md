@@ -1,13 +1,13 @@
 # Plugin Submission Guide
 
-How to submit NuGetSkills as a plugin/skill to each AI coding agent's official ecosystem.
+How to submit nuget-skills as a plugin/skill to each AI coding agent's official ecosystem.
 
 ## Universal Distribution (all agents)
 
 The primary distribution mechanism for all agents is the dotnet tool:
 
 ```bash
-dotnet tool install -g NuGetSkills
+dotnet tool install -g nuget-skills
 nuget-skills init --agent <agent-name>
 ```
 
@@ -21,7 +21,7 @@ This works for every supported agent. The platform-specific submissions below ar
 
 **Files in place**:
 - `.claude-plugin/plugin.json` — plugin manifest
-- `src/NuGetSkills/Templates/` — SKILL.md files for both skills
+- `src/nuget-skills/Templates/` — SKILL.md files for both skills
 - `hooks/hooks.json` — SessionStart hook
 
 **Submission options**:

@@ -11,7 +11,7 @@
     <ToolCommandName>nuget-skills</ToolCommandName>
 
     <!-- NuGet metadata -->
-    <PackageId>NuGetSkills</PackageId>
+    <PackageId>nuget-skills</PackageId>
     <Version>0.1.0</Version>
     <Authors>Diego Frata</Authors>
     <Description>Discover and load AI coding skills bundled with NuGet packages. Works with Claude Code, Cursor, Copilot, Codex, Windsurf, Cline, and Goose.</Description>
