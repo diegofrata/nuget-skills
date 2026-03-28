@@ -6,27 +6,13 @@ Instead of copying skills into your repository, the tool reads them directly fro
 
 ## How it works
 
-```
-                                NuGet Cache
-                              (~/.nuget/packages/)
-                                     |
-Developer installs package -----> Package has skills/SKILL.md?
-                                     |
-                              yes ---+--- no
-                               |           |
-                          [local]     Check GitHub repo
-                               |           |
-                               |      yes -+-- no
-                               |       |        |
-                               |  [remote]   README.md?
-                               |       |        |
-                               v       v        v
-                          nuget-skills scan output
-```
-
 1. **`nuget-skills init`** installs a meta-skill and a session-start hook for your AI agent
 2. When you start a session, the hook runs **`nuget-skills scan`** automatically
-3. Your agent sees which packages have skills and loads them on demand with **`nuget-skills load`**
+3. For each NuGet package, it checks three sources in order:
+   - **Local** &mdash; `skills/SKILL.md` bundled inside the NuGet package
+   - **Remote** &mdash; `skills/SKILL.md` in the package's GitHub repo (via `gh` CLI)
+   - **README** &mdash; `README.md` from the NuGet package (fallback)
+4. Your agent sees which packages have skills and loads them on demand with **`nuget-skills load`**
 
 ## Quick start
 
