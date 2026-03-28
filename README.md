@@ -153,7 +153,7 @@ Ship skills with your NuGet package so AI agents can use them.
 
 Add a `skills/SKILL.md` to your project:
 
-```markdown
+````markdown
 ---
 name: your-package
 description: One-line summary of what this skill teaches
@@ -172,7 +172,7 @@ description: One-line summary of what this skill teaches
 ```csharp
 // Practical code examples
 ```
-```
+````
 
 A package can include multiple skill files:
 
