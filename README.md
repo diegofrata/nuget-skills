@@ -93,17 +93,17 @@ nuget-skills load Serilog --version 3.1.1     # Specific version
 Outputs package metadata as JSON (repository URL, description, skill status).
 
 ```shell
-nuget-skills info Polly
+nuget-skills info Generator.Equals
 ```
 
 ```json
 {
-  "id": "Polly",
-  "version": "8.3.0",
-  "description": "Polly is a resilience and transient-fault-handling library...",
-  "repositoryUrl": "https://github.com/App-vNext/Polly",
+  "id": "Generator.Equals",
+  "version": "4.0.0",
+  "description": "A source generator for generating Equals and GetHashCode methods",
+  "repositoryUrl": "https://github.com/diegofrata/Generator.Equals",
   "hasSkills": true,
-  "cachePath": "/Users/you/.nuget/packages/polly/8.3.0"
+  "cachePath": "/Users/you/.nuget/packages/generator.equals/4.0.0"
 }
 ```
 
