@@ -88,6 +88,7 @@ public class PackageScanner
             var cached = SkillCache.Read(package.Id, package.ResolvedVersion);
             if (cached is not null)
             {
+                // Positive results (skill found) are cached indefinitely
                 if (cached.HasRemoteSkill && _settings.EnableRemoteScan)
                 {
                     return (new PackageSkillInfo(
@@ -101,18 +102,24 @@ public class PackageScanner
                         RemoteRef: cached.RemoteRef), false);
                 }
 
-                if (cached.HasReadme && _settings.EnableReadmeFallback && !cached.HasRemoteSkill)
-                {
-                    return (new PackageSkillInfo(
-                        PackageId: package.Id,
-                        Version: package.ResolvedVersion,
-                        SkillFiles: [Constants.ReadmeFileName],
-                        Name: null,
-                        Description: nuspec?.Description ?? "(package README available)",
-                        Source: SkillSource.Readme), false);
-                }
+                // Negative results expire after 7 days so newly added skills get picked up
+                var isStale = DateTime.UtcNow - cached.CheckedAt > TimeSpan.FromDays(7);
 
-                return null;
+                if (!isStale)
+                {
+                    if (cached.HasReadme && _settings.EnableReadmeFallback)
+                    {
+                        return (new PackageSkillInfo(
+                            PackageId: package.Id,
+                            Version: package.ResolvedVersion,
+                            SkillFiles: [Constants.ReadmeFileName],
+                            Name: null,
+                            Description: nuspec?.Description ?? "(package README available)",
+                            Source: SkillSource.Readme), false);
+                    }
+
+                    return null;
+                }
             }
         }
 
