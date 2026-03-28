@@ -1,0 +1,37 @@
+name: Release
+
+env:
+  NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'diegofrata'
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: Set Version
+      run: |
+        VERSION=`git describe --tags`
+        echo "Publishing Version: ${VERSION}"
+        echo "VERSION=${VERSION}" >> $GITHUB_ENV
+    - name: Pack
+      run: dotnet pack src/NugetSkills/NugetSkills.csproj /p:PackageVersion=$VERSION /p:Version=$VERSION -c Release -o ./publish
+    - name: Publish
+      run: dotnet nuget push './publish/**/*.nupkg' -s https://api.nuget.org/v3/index.json -k $NUGET_API_KEY --skip-duplicate
