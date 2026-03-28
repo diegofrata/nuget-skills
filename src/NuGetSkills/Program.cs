@@ -9,6 +9,7 @@ rootCommand.Add(ScanCommand.Create());
 rootCommand.Add(LoadCommand.Create());
 rootCommand.Add(InfoCommand.Create());
 rootCommand.Add(DoctorCommand.Create());
+rootCommand.Add(CacheClearCommand.Create());
 
 var parseResult = rootCommand.Parse(args);
 
