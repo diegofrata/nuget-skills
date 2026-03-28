@@ -4,6 +4,14 @@ A .NET CLI tool that discovers and loads AI coding skills bundled with NuGet pac
 
 Instead of copying skills into your repository, the tool reads them directly from the NuGet package cache or from the package's source repository on GitHub. Your AI agent gets library-specific guidance automatically.
 
+## Why does it matter?
+
+When you ask an AI coding agent for help with a NuGet package, it has no structured way to access that library's conventions, patterns, or pitfalls. It falls back on training data that may be outdated or generic.
+
+**nuget-skills** fixes this by creating a distribution channel for library-specific knowledge through NuGet itself. Package authors ship a `skills/SKILL.md` alongside their code, and AI agents discover and load it automatically. The result: your agent knows the right way to use Serilog, Polly, or MediatR — not just the API surface, but the conventions, gotchas, and patterns that matter.
+
+For the .NET ecosystem, this is the equivalent of what [npm-agentskills](https://github.com/onmax/npm-agentskills) and [vercel-labs/skills](https://github.com/vercel-labs/skills) do for JavaScript — but designed to work with NuGet's package cache instead of copying files into your repo.
+
 ## How it works
 
 1. **`nuget-skills init`** installs a meta-skill and a session-start hook for your AI agent
@@ -253,6 +261,3 @@ Supports all .NET project types:
 - `.sln`
 - `.csproj`, `.fsproj`, `.vbproj`
 
-## License
-
-MIT
