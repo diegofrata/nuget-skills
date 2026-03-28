@@ -26,7 +26,7 @@ For the .NET ecosystem, this is the equivalent of what [npm-agentskills](https:/
 
 ```shell
 # Install the tool
-dotnet tool install -g nuget-skills
+dotnet tool install -g NugetSkills
 
 # Initialize in your project (auto-detects installed agents)
 cd your-dotnet-project
