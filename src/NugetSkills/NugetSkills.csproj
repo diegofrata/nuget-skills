@@ -9,12 +9,17 @@
     <!-- Tool packaging -->
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>nuget-skills</ToolCommandName>
+
+    <!-- NuGet metadata -->
     <PackageId>nuget-skills</PackageId>
     <Version>0.1.0</Version>
-    <Authors>Diego</Authors>
-    <Description>Discover and load AI coding skills bundled with NuGet packages</Description>
-    <PackageTags>nuget;skills;ai;agents;claude</PackageTags>
+    <Authors>Diego Frata</Authors>
+    <Description>Discover and load AI coding skills bundled with NuGet packages. Works with Claude Code, Cursor, Copilot, Codex, Windsurf, Cline, and Goose.</Description>
+    <PackageTags>nuget;skills;ai;agents;claude;cursor;copilot;codex;windsurf;cline;goose</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/diegofrata/nuget-skills</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/diegofrata/nuget-skills</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
@@ -24,6 +29,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Templates/**/*.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
 </Project>
