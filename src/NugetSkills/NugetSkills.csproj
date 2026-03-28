@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- Tool packaging -->
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>nuget-skills</ToolCommandName>
+    <PackageId>nuget-skills</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Diego</Authors>
+    <Description>Discover and load AI coding skills bundled with NuGet packages</Description>
+    <PackageTags>nuget;skills;ai;agents;claude</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates/**/*.md" />
+  </ItemGroup>
+
+</Project>

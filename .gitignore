@@ -1,0 +1,9 @@
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.DotSettings.user
+nupkg/
+TestResults/
+.claude/skills/nuget-package-*

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "nuget-skills scan",
+            "timeout": 30000
+          }
+        ]
+      }
+    ]
+  }
+}
