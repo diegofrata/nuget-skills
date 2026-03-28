@@ -14,7 +14,7 @@ var parseResult = rootCommand.Parse(args);
 
 // Print header for interactive commands (not for load/info which output machine-readable data, or --help/--version)
 var commandName = parseResult.CommandResult.Command.Name;
-var quietCommands = new[] { "load", "info", rootCommand.Name };
+var quietCommands = new[] { "load", "info" };
 var hasJsonFlag = args.Contains("--json");
 if (!quietCommands.Contains(commandName) && !hasJsonFlag)
 {
