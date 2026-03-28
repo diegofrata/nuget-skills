@@ -1,4 +1,4 @@
-namespace NugetSkills.AgentProviders;
+namespace NuGetSkills.AgentProviders;
 
 public class GooseProvider : SkillMdProvider
 {

@@ -1,4 +1,4 @@
-namespace NugetSkills.AgentProviders;
+namespace NuGetSkills.AgentProviders;
 
 /// <summary>
 /// Base class for agents that use standard SKILL.md format in a skills/ subdirectory.

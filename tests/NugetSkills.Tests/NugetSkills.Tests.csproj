@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NugetSkills\NugetSkills.csproj" />
+    <ProjectReference Include="..\..\src\NuGetSkills\NuGetSkills.csproj" />
   </ItemGroup>
 
 </Project>

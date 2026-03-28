@@ -1,4 +1,4 @@
-namespace NugetSkills.Models;
+namespace NuGetSkills.Models;
 
 public enum SkillSource { Local, Remote, Readme }
 

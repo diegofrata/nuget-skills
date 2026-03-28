@@ -1,4 +1,4 @@
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public record ParsedFrontmatter(Dictionary<string, string> Fields, string Body)
 {

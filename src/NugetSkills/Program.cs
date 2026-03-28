@@ -1,5 +1,5 @@
 using System.CommandLine;
-using NugetSkills.Commands;
+using NuGetSkills.Commands;
 
 var rootCommand = new RootCommand("Discover and load AI coding skills bundled with NuGet packages");
 

@@ -1,8 +1,8 @@
 using System.CommandLine;
 using System.Text.Json;
-using NugetSkills.Services;
+using NuGetSkills.Services;
 
-namespace NugetSkills.Commands;
+namespace NuGetSkills.Commands;
 
 public static class InfoCommand
 {

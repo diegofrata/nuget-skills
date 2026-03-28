@@ -1,7 +1,7 @@
 using System.Text.Json;
-using NugetSkills.Models;
+using NuGetSkills.Models;
 
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public static class SkillCache
 {

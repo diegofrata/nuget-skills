@@ -1,6 +1,6 @@
 using System.Text.Json.Nodes;
 
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public static class JsonHelpers
 {
@@ -26,7 +26,7 @@ public static class JsonHelpers
         {
             if (hooksObj.TryGetPropertyValue(eventName, out var arr) && arr is JsonArray array)
             {
-                if (!ContainsNugetSkillsHook(array))
+                if (!ContainsNuGetSkillsHook(array))
                     array.Add(hookEntry);
             }
             else
@@ -46,7 +46,7 @@ public static class JsonHelpers
         File.WriteAllText(path, root.ToJsonString(Constants.JsonOptions));
     }
 
-    private static bool ContainsNugetSkillsHook(JsonArray array)
+    private static bool ContainsNuGetSkillsHook(JsonArray array)
     {
         return array.Any(entry =>
         {

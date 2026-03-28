@@ -1,7 +1,7 @@
-using NugetSkills.Models;
-using NugetSkills.Services;
+using NuGetSkills.Models;
+using NuGetSkills.Services;
 
-namespace NugetSkills.Tests;
+namespace NuGetSkills.Tests;
 
 public class SkillCacheTests : IDisposable
 {

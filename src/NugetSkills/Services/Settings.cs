@@ -1,8 +1,8 @@
 using System.Text.Json;
 
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
-public record NugetSkillsSettings(
+public record NuGetSkillsSettings(
     bool EnableRemoteScan = true,
     bool EnableReadmeFallback = true)
 {
@@ -10,9 +10,9 @@ public record NugetSkillsSettings(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         "nuget-skills", "settings.json");
 
-    private static NugetSkillsSettings? _cached;
+    private static NuGetSkillsSettings? _cached;
 
-    public static NugetSkillsSettings Load()
+    public static NuGetSkillsSettings Load()
     {
         if (_cached is not null)
             return _cached;
@@ -20,12 +20,12 @@ public record NugetSkillsSettings(
         try
         {
             var json = File.ReadAllText(FilePath);
-            _cached = JsonSerializer.Deserialize<NugetSkillsSettings>(json, Constants.JsonOptions)
-                       ?? new NugetSkillsSettings();
+            _cached = JsonSerializer.Deserialize<NuGetSkillsSettings>(json, Constants.JsonOptions)
+                       ?? new NuGetSkillsSettings();
         }
         catch
         {
-            _cached = new NugetSkillsSettings();
+            _cached = new NuGetSkillsSettings();
         }
 
         return _cached;

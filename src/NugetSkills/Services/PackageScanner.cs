@@ -1,6 +1,6 @@
-using NugetSkills.Models;
+using NuGetSkills.Models;
 
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public class PackageScanner
 {
@@ -8,7 +8,7 @@ public class PackageScanner
     private readonly NuGetCacheLocator _cache;
     private readonly GitHubService _github;
     private readonly bool _ghAvailable;
-    private readonly NugetSkillsSettings _settings;
+    private readonly NuGetSkillsSettings _settings;
 
     public PackageScanner(IDotnetCli cli, NuGetCacheLocator cache, GitHubService github, bool ghAvailable)
     {
@@ -16,7 +16,7 @@ public class PackageScanner
         _cache = cache;
         _github = github;
         _ghAvailable = ghAvailable;
-        _settings = NugetSkillsSettings.Load();
+        _settings = NuGetSkillsSettings.Load();
     }
 
     public async Task<ScanResult> ScanAsync(

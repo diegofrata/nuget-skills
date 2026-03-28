@@ -1,4 +1,4 @@
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public static class PackageVersionResolver
 {

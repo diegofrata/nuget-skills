@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace NugetSkills;
+namespace NuGetSkills;
 
 public static class Constants
 {

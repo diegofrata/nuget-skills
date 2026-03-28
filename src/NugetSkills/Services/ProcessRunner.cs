@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public record ProcessResult(bool Success, string Stdout, string Stderr, int ExitCode);
 

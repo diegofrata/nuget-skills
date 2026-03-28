@@ -1,4 +1,4 @@
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public record ToolCheckResult(bool Available, string? Version, string? Details);
 

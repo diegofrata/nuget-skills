@@ -1,7 +1,7 @@
 using System.CommandLine;
-using NugetSkills.Services;
+using NuGetSkills.Services;
 
-namespace NugetSkills.Commands;
+namespace NuGetSkills.Commands;
 
 public static class DoctorCommand
 {
@@ -35,12 +35,12 @@ public static class DoctorCommand
         var skillsCache = ToolChecker.CheckSkillsCache();
         PrintCheck("Skills cache", skillsCache.Available, null, skillsCache.Details);
 
-        var settings = NugetSkillsSettings.Load();
+        var settings = NuGetSkillsSettings.Load();
         Console.WriteLine();
         Console.WriteLine("  Settings:");
         Console.WriteLine($"    Remote scan:     {(settings.EnableRemoteScan ? "enabled" : "disabled")}");
         Console.WriteLine($"    README fallback: {(settings.EnableReadmeFallback ? "enabled" : "disabled")}");
-        Console.WriteLine($"    Config:          {NugetSkillsSettings.FilePath}");
+        Console.WriteLine($"    Config:          {NuGetSkillsSettings.FilePath}");
 
         Console.WriteLine();
     }

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public static partial class VersionMatcher
 {

@@ -1,6 +1,6 @@
-using NugetSkills.Models;
+using NuGetSkills.Models;
 
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public interface IDotnetCli
 {

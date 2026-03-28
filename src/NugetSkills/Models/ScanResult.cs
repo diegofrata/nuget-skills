@@ -1,4 +1,4 @@
-namespace NugetSkills.Models;
+namespace NuGetSkills.Models;
 
 /// <summary>
 /// The result of scanning a project/solution for NuGet package skills.

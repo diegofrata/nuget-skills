@@ -1,4 +1,4 @@
-namespace NugetSkills.Models;
+namespace NuGetSkills.Models;
 
 public record CachedSkillInfo(
     string PackageId,

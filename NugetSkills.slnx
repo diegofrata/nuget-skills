@@ -5,9 +5,9 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/src/">
-    <Project Path="src/NugetSkills/NugetSkills.csproj" />
+    <Project Path="src/NuGetSkills/NuGetSkills.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/NugetSkills.Tests/NugetSkills.Tests.csproj" />
+    <Project Path="tests/NuGetSkills.Tests/NuGetSkills.Tests.csproj" />
   </Folder>
 </Solution>

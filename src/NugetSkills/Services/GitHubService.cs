@@ -1,4 +1,4 @@
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public record SkillSearchResult(string Path, string Content);
 

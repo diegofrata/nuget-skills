@@ -7,6 +7,6 @@
   },
   "repository": "https://github.com/diegofrata/nuget-skills",
   "license": "MIT",
-  "skills": "./src/NugetSkills/Templates/",
+  "skills": "./src/NuGetSkills/Templates/",
   "hooks": "./hooks/hooks.json"
 }

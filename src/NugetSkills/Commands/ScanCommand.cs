@@ -1,9 +1,9 @@
 using System.CommandLine;
 using System.Text.Json;
-using NugetSkills.Models;
-using NugetSkills.Services;
+using NuGetSkills.Models;
+using NuGetSkills.Services;
 
-namespace NugetSkills.Commands;
+namespace NuGetSkills.Commands;
 
 public static class ScanCommand
 {
@@ -31,7 +31,7 @@ public static class ScanCommand
 
     private static async Task ExecuteAsync(string? project, bool json, bool refresh, CancellationToken cancellationToken)
     {
-        var settings = NugetSkillsSettings.Load();
+        var settings = NuGetSkillsSettings.Load();
         var cli = new DotnetCli();
         var cache = new NuGetCacheLocator(cli);
         var ghAvailable = settings.EnableRemoteScan && await ToolChecker.IsGhAvailableAsync();
@@ -66,7 +66,7 @@ public static class ScanCommand
         Console.WriteLine(JsonSerializer.Serialize(results, Constants.JsonOptions));
     }
 
-    private static void WriteHuman(List<ScanResult> results, bool ghAvailable, NugetSkillsSettings settings)
+    private static void WriteHuman(List<ScanResult> results, bool ghAvailable, NuGetSkillsSettings settings)
     {
         foreach (var result in results)
         {

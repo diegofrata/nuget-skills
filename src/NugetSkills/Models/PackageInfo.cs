@@ -1,4 +1,4 @@
-namespace NugetSkills.Models;
+namespace NuGetSkills.Models;
 
 /// <summary>
 /// A NuGet package reference discovered in a project.

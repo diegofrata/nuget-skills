@@ -1,7 +1,7 @@
 using System.CommandLine;
-using NugetSkills.Services;
+using NuGetSkills.Services;
 
-namespace NugetSkills.Commands;
+namespace NuGetSkills.Commands;
 
 public static class LoadCommand
 {
@@ -66,7 +66,7 @@ public static class LoadCommand
         }
 
         // Fall back to README in NuGet cache
-        var settings = NugetSkillsSettings.Load();
+        var settings = NuGetSkillsSettings.Load();
         if (settings.EnableReadmeFallback)
         {
             var packageDir = await cache.GetPackageDirectoryAsync(package, ver, cancellationToken);

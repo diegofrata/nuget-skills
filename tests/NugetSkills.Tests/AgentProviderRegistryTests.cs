@@ -1,6 +1,6 @@
-using NugetSkills.AgentProviders;
+using NuGetSkills.AgentProviders;
 
-namespace NugetSkills.Tests;
+namespace NuGetSkills.Tests;
 
 public class AgentProviderRegistryTests : IDisposable
 {

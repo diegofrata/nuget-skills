@@ -1,7 +1,7 @@
 using System.Text.Json.Nodes;
-using NugetSkills.Services;
+using NuGetSkills.Services;
 
-namespace NugetSkills.AgentProviders;
+namespace NuGetSkills.AgentProviders;
 
 public class CopilotProvider : IAgentProvider
 {

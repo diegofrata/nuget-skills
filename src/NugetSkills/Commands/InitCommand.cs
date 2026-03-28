@@ -1,9 +1,9 @@
 using System.CommandLine;
 using System.Reflection;
-using NugetSkills.AgentProviders;
-using NugetSkills.Services;
+using NuGetSkills.AgentProviders;
+using NuGetSkills.Services;
 
-namespace NugetSkills.Commands;
+namespace NuGetSkills.Commands;
 
 public static class InitCommand
 {
@@ -81,11 +81,11 @@ public static class InitCommand
         // Save settings only if user explicitly opted out of something
         if (noRemote || noReadme)
         {
-            var settings = new NugetSkillsSettings(
+            var settings = new NuGetSkillsSettings(
                 EnableRemoteScan: !noRemote,
                 EnableReadmeFallback: !noReadme);
             settings.Save();
-            Console.WriteLine($"  Saved settings to {NugetSkillsSettings.FilePath}");
+            Console.WriteLine($"  Saved settings to {NuGetSkillsSettings.FilePath}");
         }
 
         Console.WriteLine();
@@ -103,8 +103,8 @@ public static class InitCommand
     {
         var assembly = Assembly.GetExecutingAssembly();
 
-        var metaSkill = ReadResource(assembly, "NugetSkills.Templates.nuget_package_skills.SKILL.md");
-        var builderSkill = ReadResource(assembly, "NugetSkills.Templates.nuget_package_skills_builder.SKILL.md");
+        var metaSkill = ReadResource(assembly, "NuGetSkills.Templates.nuget_package_skills.SKILL.md");
+        var builderSkill = ReadResource(assembly, "NuGetSkills.Templates.nuget_package_skills_builder.SKILL.md");
 
         return (metaSkill, builderSkill);
     }

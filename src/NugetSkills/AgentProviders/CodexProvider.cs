@@ -1,4 +1,4 @@
-namespace NugetSkills.AgentProviders;
+namespace NuGetSkills.AgentProviders;
 
 /// <summary>
 /// Covers both OpenAI Codex and Amp (Sourcegraph) via shared .agents/skills/ path.

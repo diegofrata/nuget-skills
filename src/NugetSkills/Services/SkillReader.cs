@@ -1,4 +1,4 @@
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public record SkillFrontmatter(string? Name, string? Description);
 

@@ -1,6 +1,6 @@
 using System.Xml.Linq;
 
-namespace NugetSkills.Services;
+namespace NuGetSkills.Services;
 
 public record NuspecMetadata(
     string? Description,
