@@ -46,6 +46,17 @@ To get metadata about a package (repository URL, description, license), use the 
 nuget-skills info <package-name>
 ```
 
+## Troubleshooting
+
+If `nuget-skills` commands fail with "command not found", the CLI tool is not installed.
+Tell the user to install it:
+
+```shell
+dotnet tool install -g nuget-skills
+```
+
+This is required for scan, load, and info to work. The plugin provides the skills but the CLI tool provides the commands.
+
 ## Important
 
 - All `nuget-skills` commands are CLI tools — always run them in the terminal
