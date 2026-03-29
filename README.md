@@ -38,6 +38,16 @@ nuget-skills doctor
 
 That's it. Your AI agent will now discover NuGet package skills on session start.
 
+### Controlling which skills are loaded
+
+By default, all discovered skills are surfaced. To pick which packages your project uses:
+
+```shell
+nuget-skills configure    # Interactive selection — saves to .nuget-skills.json
+```
+
+See [`nuget-skills configure`](#nuget-skills-configure) for details.
+
 ## Commands
 
 ### `nuget-skills install`
