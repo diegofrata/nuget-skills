@@ -89,6 +89,15 @@ public static class InitCommand
             ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
             : Directory.GetCurrentDirectory();
 
+        if (global && agentFlag is null)
+        {
+            Console.Error.WriteLine(
+                $"Global install requires --agent to specify which agents to install for.\n" +
+                $"Valid values: {string.Join(", ", AgentProviderRegistry.ValidNames)}, all");
+            Environment.Exit(1);
+            return default;
+        }
+
         List<IAgentProvider> providers;
         try
         {
