@@ -246,16 +246,6 @@ Or edit directly:
 }
 ```
 
-## Claude Code plugin
-
-For Claude Code users, the tool is also available as a plugin:
-
-```
-/plugin marketplace add diegofrata/nuget-skills
-```
-
-This installs the skills and hooks without needing `nuget-skills install --agent claude`.
-
 ## Project types
 
 Supports all .NET project types:
