@@ -28,12 +28,10 @@ For the .NET ecosystem, this is the equivalent of what [npm-agentskills](https:/
 # Install the tool
 dotnet tool install -g nuget-skills
 
-# Initialize in your project (auto-detects installed agents)
-cd your-dotnet-project
-nuget-skills install
-
-# Or specify agents explicitly
+# Install globally for your agent(s)
+nuget-skills install --agent claude
 nuget-skills install --agent claude,cursor
+nuget-skills install --agent all
 
 # Verify your setup
 nuget-skills doctor
@@ -45,20 +43,18 @@ That's it. Your AI agent will now discover NuGet package skills on session start
 
 ### `nuget-skills install`
 
-Installs the discovery skill and session-start hooks for your AI coding agent(s). Installs globally by default.
-
-Installs skills and hooks for your AI coding agent(s).
+Installs skills and session-start hooks for your AI coding agent(s). Installs globally (`~/`) by default.
 
 ```shell
-nuget-skills install                          # Auto-detect agents
-nuget-skills install --agent claude,cursor    # Specific agents
-nuget-skills install --agent all              # All supported agents
-nuget-skills install --project-level           # Install to current project instead of globally
-nuget-skills install --no-remote              # Disable remote skill discovery
-nuget-skills install --no-readme              # Disable README fallback
+nuget-skills install --agent claude            # Install for Claude Code
+nuget-skills install --agent claude,cursor     # Multiple agents
+nuget-skills install --agent all               # All supported agents
+nuget-skills install --project-level           # Project-level (auto-detects agents)
+nuget-skills install --no-remote               # Disable remote skill discovery
+nuget-skills install --no-readme               # Disable README fallback
 ```
 
-**Auto-detection** checks for agent config directories (`.claude/`, `.cursor/`, etc.) in your project. If none are found, you must specify `--agent`.
+Global install requires `--agent`. Project-level install auto-detects agents from config directories (`.claude/`, `.cursor/`, etc.).
 
 ### `nuget-skills scan`
 
