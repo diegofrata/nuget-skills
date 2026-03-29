@@ -21,15 +21,20 @@ public static class DoctorCommand
     {
         Console.WriteLine();
 
-        var dotnet = await ToolChecker.CheckDotnetAsync();
+        var dotnetTask = ToolChecker.CheckDotnetAsync();
+        var ghTask = ToolChecker.CheckGhAsync();
+        var nugetCacheTask = ToolChecker.CheckNuGetCacheAsync();
+        await Task.WhenAll(dotnetTask, ghTask, nugetCacheTask);
+
+        var dotnet = dotnetTask.Result;
         PrintCheck("dotnet CLI", dotnet.Available, dotnet.Version, null);
 
-        var gh = await ToolChecker.CheckGhAsync();
+        var gh = ghTask.Result;
         PrintCheck("gh CLI", gh.Available, gh.Version, gh.Available
             ? gh.Details
             : "Remote skill discovery will not work.\n                      Install from https://cli.github.com");
 
-        var nugetCache = await ToolChecker.CheckNuGetCacheAsync();
+        var nugetCache = nugetCacheTask.Result;
         PrintCheck("NuGet cache", nugetCache.Available, null, nugetCache.Details);
 
         var skillsCache = ToolChecker.CheckSkillsCache();

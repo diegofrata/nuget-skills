@@ -12,7 +12,7 @@ public abstract class SkillMdProvider : IAgentProvider
     {
         var skillDir = Path.Combine(baseDir, SkillsSubPath, skillName);
         Directory.CreateDirectory(skillDir);
-        File.WriteAllText(Path.Combine(skillDir, "SKILL.md"), skillContent);
+        File.WriteAllText(Path.Combine(skillDir, Constants.SkillFileName), skillContent);
     }
 
     public virtual void InstallHooks(string baseDir)

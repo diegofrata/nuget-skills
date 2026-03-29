@@ -42,6 +42,10 @@ public static class ProcessRunner
 
             return new ProcessResult(process.ExitCode == 0, stdout, stderr, process.ExitCode);
         }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
         catch
         {
             return new ProcessResult(false, "", "", -1);

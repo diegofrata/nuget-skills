@@ -15,6 +15,8 @@ public static class FrontmatterParser
         var inFrontmatter = false;
         var bodyStart = 0;
 
+        var frontmatterClosed = false;
+
         for (var i = 0; i < lines.Length; i++)
         {
             var trimmed = lines[i].Trim();
@@ -29,6 +31,7 @@ public static class FrontmatterParser
             if (trimmed == "---")
             {
                 bodyStart = i + 1;
+                frontmatterClosed = true;
                 break;
             }
 
@@ -39,6 +42,13 @@ public static class FrontmatterParser
             var key = trimmed[..colonIndex].Trim();
             var value = trimmed[(colonIndex + 1)..].Trim();
             fields[key] = value;
+        }
+
+        // If frontmatter was opened but never closed, treat entire content as body
+        if (inFrontmatter && !frontmatterClosed)
+        {
+            fields.Clear();
+            bodyStart = 0;
         }
 
         var body = string.Join('\n', lines[bodyStart..]).TrimStart('\n');

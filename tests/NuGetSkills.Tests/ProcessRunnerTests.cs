@@ -57,13 +57,12 @@ public class ProcessRunnerTests
     }
 
     [Fact]
-    public async Task RunAsync_Cancellation_ReturnsFalse()
+    public async Task RunAsync_Cancellation_Throws()
     {
         using var cts = new CancellationTokenSource();
         cts.Cancel();
 
-        var result = await ProcessRunner.RunAsync("dotnet", "--version", cancellationToken: cts.Token);
-
-        Assert.False(result.Success);
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            ProcessRunner.RunAsync("dotnet", "--version", cancellationToken: cts.Token));
     }
 }

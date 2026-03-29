@@ -4,7 +4,7 @@ namespace NuGetSkills.Services;
 
 public static partial class VersionMatcher
 {
-    [GeneratedRegex(@"^(\d+)\.(\d+)\.(\d+)(?:-([a-zA-Z0-9.]+))?(?:\+(.+))?$")]
+    [GeneratedRegex(@"^(\d+)\.(\d+)\.(\d+)(?:-([a-zA-Z0-9.]+))?(?:\+.+)?$")]
     private static partial Regex SemverRegex();
 
     /// <summary>
