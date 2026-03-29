@@ -38,6 +38,7 @@ Create a file with this structure:
 ---
 name: <package-name-lowercase>
 description: <one-line summary of what guidance this skill provides>
+packages: <optional — comma-separated glob patterns to restrict which packages this skill applies to>
 ---
 
 # <Package Name>
@@ -68,6 +69,16 @@ description: <one-line summary of what guidance this skill provides>
 - **Configuration examples** — the most common setups, not every possible option
 - **Concise** — agents have limited context; every line should earn its place
 - **Code over prose** — show patterns, don't just describe them
+
+## Package Filtering
+
+If a repository produces multiple NuGet packages but a skill only applies to some of them, use the `packages` frontmatter field:
+
+```yaml
+packages: Contoso.Http*, Contoso.Core
+```
+
+Each entry is a glob pattern (`*` wildcard) matched case-insensitively against package IDs. Omitting the field means the skill applies to all packages from the repository.
 
 ## Multiple Skills Per Package
 

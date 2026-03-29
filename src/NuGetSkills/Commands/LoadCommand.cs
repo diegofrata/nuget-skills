@@ -65,21 +65,7 @@ public static class LoadCommand
             }
         }
 
-        // Fall back to README in NuGet cache
-        var settings = NuGetSkillsSettings.Load();
-        if (settings.EnableReadmeFallback)
-        {
-            var packageDir = await cache.GetPackageDirectoryAsync(package, ver, cancellationToken);
-            var readmePath = Path.Combine(packageDir, Constants.ReadmeFileName);
-            if (File.Exists(readmePath))
-            {
-                var readmeContent = await File.ReadAllTextAsync(readmePath, cancellationToken);
-                Console.Write(readmeContent);
-                return;
-            }
-        }
-
-        Console.Error.WriteLine($"No skills found for {package} {ver} (local, remote, or README).");
+        Console.Error.WriteLine($"No skills found for {package} {ver} (local or remote).");
         Environment.Exit(1);
     }
 

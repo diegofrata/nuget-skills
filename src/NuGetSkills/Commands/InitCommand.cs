@@ -24,30 +24,23 @@ public static class InitCommand
             Description = "Disable remote skill discovery (checking package source repos)",
         };
 
-        var noReadmeOption = new Option<bool>("--no-readme")
-        {
-            Description = "Disable README fallback when no skill is found",
-        };
-
         var command = new Command("install", "Install nuget-skills discovery for AI coding agents");
         command.Add(projectOption);
         command.Add(agentOption);
         command.Add(noRemoteOption);
-        command.Add(noReadmeOption);
 
         command.SetAction(async (parseResult, _) =>
         {
             var projectLevel = parseResult.GetValue(projectOption);
             var agent = parseResult.GetValue(agentOption);
             var noRemote = parseResult.GetValue(noRemoteOption);
-            var noReadme = parseResult.GetValue(noReadmeOption);
-            await ExecuteAsync(!projectLevel, agent, noRemote, noReadme);
+            await ExecuteAsync(!projectLevel, agent, noRemote);
         });
 
         return command;
     }
 
-    private static async Task ExecuteAsync(bool global, string? agentFlag, bool noRemote, bool noReadme)
+    private static async Task ExecuteAsync(bool global, string? agentFlag, bool noRemote)
     {
         var (baseDir, providers) = ResolveProviders(global, agentFlag);
         var metaSkill = ReadResource("NuGetSkills.Templates.nuget_package_skills.SKILL.md");
@@ -63,11 +56,10 @@ public static class InitCommand
             Console.WriteLine($"    Installed hooks");
         }
 
-        if (noRemote || noReadme)
+        if (noRemote)
         {
             var settings = new NuGetSkillsSettings(
-                EnableRemoteScan: !noRemote,
-                EnableReadmeFallback: !noReadme);
+                EnableRemoteScan: false);
             settings.Save();
             Console.WriteLine($"  Saved settings to {NuGetSkillsSettings.FilePath}");
         }

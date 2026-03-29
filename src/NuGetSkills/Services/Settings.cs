@@ -3,8 +3,7 @@ using System.Text.Json;
 namespace NuGetSkills.Services;
 
 public record NuGetSkillsSettings(
-    bool EnableRemoteScan = true,
-    bool EnableReadmeFallback = true)
+    bool EnableRemoteScan = true)
 {
     public static readonly string FilePath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),

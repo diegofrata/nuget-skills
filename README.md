@@ -16,10 +16,9 @@ For the .NET ecosystem, this is the equivalent of what [npm-agentskills](https:/
 
 1. **`nuget-skills install`** installs a meta-skill and a session-start hook for your AI agent
 2. When you start a session, the hook runs **`nuget-skills scan`** automatically
-3. For each NuGet package, it checks three sources in order:
+3. For each NuGet package, it checks two sources in order:
    - **Local** &mdash; `skills/SKILL.md` bundled inside the NuGet package
    - **Remote** &mdash; `skills/SKILL.md` in the package's GitHub repo (via `gh` CLI)
-   - **README** &mdash; `README.md` from the NuGet package (fallback)
 4. Your agent sees which packages have skills and loads them on demand with **`nuget-skills load`**
 
 ## Quick start
@@ -51,7 +50,6 @@ nuget-skills install --agent claude,cursor     # Multiple agents
 nuget-skills install --agent all               # All supported agents
 nuget-skills install --project-level           # Project-level (auto-detects agents)
 nuget-skills install --no-remote               # Disable remote skill discovery
-nuget-skills install --no-readme               # Disable README fallback
 ```
 
 Global install requires `--agent`. Project-level install auto-detects agents from config directories (`.claude/`, `.cursor/`, etc.).
@@ -71,27 +69,60 @@ Output:
 
 ```
 Scanning MyProject.sln...
-Found 3 package(s) with skills (of 47 total):
+Found 2 package(s) with skills (of 47 total):
 
-  Serilog          3.1.1   [local]   Structured logging patterns
-  Polly            8.3.0   [remote]  Resilience policies (github.com/App-vNext/Polly @ v8.3.0)
-  Newtonsoft.Json  13.0.3  [readme]  JSON framework (from package README)
+  Contoso.Logging  3.1.1   [local]   Structured logging patterns
+  Contoso.Http     2.0.0   [remote]  HTTP client best practices (github.com/contoso/http @ v2.0.0)
 
 Use 'nuget-skills load <package>' to view a skill.
 ```
 
-Skills are discovered from three sources:
+Skills are discovered from two sources:
 - **[local]** &mdash; `skills/SKILL.md` bundled in the NuGet package
 - **[remote]** &mdash; `skills/SKILL.md` found in the package's GitHub repo (requires `gh` CLI)
-- **[readme]** &mdash; `README.md` from the NuGet package (fallback)
+
+### `nuget-skills configure`
+
+Configures which package skills to load for this project. Creates a `.nuget-skills.json` file in the project root. Without this file, all discovered skills are shown. With it, only whitelisted packages appear in scan results.
+
+```shell
+nuget-skills configure                   # Interactive selection
+nuget-skills configure --list            # Show current configuration
+nuget-skills configure --add Contoso.Logging   # Add a package (non-interactive)
+nuget-skills configure --remove Contoso.Http   # Remove a package (non-interactive)
+nuget-skills configure --reset           # Remove config file (show all skills)
+```
+
+Interactive mode scans the project, then presents a toggle list:
+
+```
+  [x]  1. Contoso.Logging    (local)   Structured logging patterns
+  [ ]  2. Contoso.Http       (remote)  HTTP client best practices
+  [x]  3. Contoso.Messaging  (local)   Message bus patterns
+
+  Toggle: enter number(s) separated by spaces
+  Commands: [a]ll  [n]one  [s]ave  [q]uit
+>
+```
+
+The config file is meant to be committed to your repository:
+
+```json
+{
+  "packages": [
+    "Contoso.Logging",
+    "Contoso.Messaging"
+  ]
+}
+```
 
 ### `nuget-skills load <package>`
 
-Outputs the full skill content for a package.
+Outputs the full skill content for a package. This command is not affected by the project configuration &mdash; you can always load any package's skill explicitly.
 
 ```shell
-nuget-skills load Serilog                     # Auto-detect version from project
-nuget-skills load Serilog --version 3.1.1     # Specific version
+nuget-skills load Contoso.Logging                  # Auto-detect version from project
+nuget-skills load Contoso.Logging --version 3.1.1  # Specific version
 ```
 
 ### `nuget-skills info <package>`
@@ -126,7 +157,11 @@ Validates your setup.
 
   Settings:
     Remote scan:     enabled
-    README fallback: enabled
+    Config:          /Users/you/Library/Application Support/nuget-skills/settings.json
+
+  Project config:
+    Packages:        2 configured (Contoso.Logging, Contoso.Messaging)
+    Config file:     /Users/you/myproject/.nuget-skills.json
 ```
 
 ## Supported agents
@@ -181,6 +216,20 @@ skills/
   MIGRATION.md          # Migration guide
 ```
 
+#### Multi-package repositories
+
+If your repository produces multiple NuGet packages but a skill only applies to some of them, use the `packages` frontmatter field:
+
+````markdown
+---
+name: contoso-http
+description: HTTP client patterns
+packages: Contoso.Http*, Contoso.Core
+---
+````
+
+Each entry is a glob pattern (`*` wildcard) matched case-insensitively against package IDs. Omitting the field means the skill applies to all packages from the repository.
+
 ### 2. Include in your package
 
 Add this to your `.csproj` (or `.fsproj` / `.vbproj`):
@@ -224,23 +273,29 @@ Remote results are cached per package version at:
 
 Use `nuget-skills scan --refresh` to bypass the cache.
 
-## Settings
+## Configuration
 
-Settings are stored alongside the cache. The file is only created when you explicitly opt out of features:
+### Global settings
+
+Global settings are stored alongside the cache. The file is only created when you explicitly opt out of features:
 
 ```shell
 nuget-skills install --no-remote    # Disables remote scan
-nuget-skills install --no-readme    # Disables README fallback
 ```
 
 Or edit directly:
 
 ```json
 {
-  "enableRemoteScan": true,
-  "enableReadmeFallback": true
+  "enableRemoteScan": true
 }
 ```
+
+### Project configuration
+
+Per-project configuration is stored in `.nuget-skills.json` in the project root. This file controls which packages' skills are surfaced by `scan`. See [`nuget-skills configure`](#nuget-skills-configure) for details.
+
+Without a config file, all discovered skills are shown. With one, only listed packages appear in scan results. The `load` command is unaffected &mdash; you can always load any package's skill explicitly.
 
 ## Project types
 

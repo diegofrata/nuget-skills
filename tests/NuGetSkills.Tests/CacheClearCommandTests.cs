@@ -22,7 +22,7 @@ public class CacheClearCommandTests : IDisposable
             PackageId: _packageId,
             Version: Version,
             HasRemoteSkill: false,
-            HasReadme: false,
+
             RepoUrl: null,
             RemoteRef: null,
             SkillPath: null,

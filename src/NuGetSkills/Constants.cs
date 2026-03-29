@@ -6,7 +6,8 @@ public static class Constants
 {
     public static readonly string[] SkillDirectoryNames = ["skills", ".skills"];
     public const string SkillFileName = "SKILL.md";
-    public const string ReadmeFileName = "README.md";
+
+    public const string ProjectConfigFileName = ".nuget-skills.json";
     public const string DefaultRef = "HEAD";
     public const string HookCommand = "nuget-skills scan";
     public const string HookIdentifier = "nuget-skills";

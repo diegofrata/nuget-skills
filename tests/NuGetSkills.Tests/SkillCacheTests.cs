@@ -38,7 +38,7 @@ public class SkillCacheTests : IDisposable
             PackageId: "TestPackage.CacheRoundTrip",
             Version: "99.99.99",
             HasRemoteSkill: true,
-            HasReadme: false,
+
             RepoUrl: "https://github.com/test/repo",
             RemoteRef: "v99.99.99",
             SkillPath: "skills/SKILL.md",
@@ -76,7 +76,7 @@ public class SkillCacheTests : IDisposable
             PackageId: "TestPackage.NoSkill",
             Version: "99.99.98",
             HasRemoteSkill: false,
-            HasReadme: true,
+
             RepoUrl: "https://github.com/test/noskill",
             RemoteRef: null,
             SkillPath: null,

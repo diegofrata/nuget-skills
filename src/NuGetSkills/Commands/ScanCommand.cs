@@ -31,12 +31,7 @@ public static class ScanCommand
 
     private static async Task ExecuteAsync(string? project, bool json, bool refresh, CancellationToken cancellationToken)
     {
-        var settings = NuGetSkillsSettings.Load();
-        var cli = new DotnetCli();
-        var cache = new NuGetCacheLocator(cli);
-        var ghAvailable = settings.EnableRemoteScan && await ToolChecker.IsGhAvailableAsync();
-        var github = new GitHubService();
-        var scanner = new PackageScanner(cli, cache, github, ghAvailable);
+        var scanner = await ScannerFactory.CreateAsync();
 
         var targets = ProjectDiscovery.Discover(project);
 
@@ -47,75 +42,80 @@ public static class ScanCommand
             return;
         }
 
+        var configuredPackages = ProjectConfigService.ResolveConfiguredPackages(project);
         var allResults = new List<ScanResult>();
 
         foreach (var target in targets)
         {
             var result = await scanner.ScanAsync(target, refresh, cancellationToken);
+
+            if (configuredPackages is not null)
+            {
+                result = result with
+                {
+                    PackagesWithSkills = result.PackagesWithSkills
+                        .Where(p => configuredPackages.Contains(p.PackageId))
+                        .ToArray()
+                };
+            }
+
             allResults.Add(result);
         }
 
         if (json)
-            WriteJson(allResults);
-        else
-            WriteHuman(allResults, ghAvailable, settings);
-    }
-
-    private static void WriteJson(List<ScanResult> results)
-    {
-        Console.WriteLine(JsonSerializer.Serialize(results, Constants.JsonOptions));
-    }
-
-    private static void WriteHuman(List<ScanResult> results, bool ghAvailable, NuGetSkillsSettings settings)
-    {
-        foreach (var result in results)
         {
-            Console.WriteLine($"Scanning {Path.GetFileName(result.Source)}...");
-
-            if (result.Problems is { Length: > 0 })
+            Console.WriteLine(JsonSerializer.Serialize(allResults, Constants.JsonOptions));
+        }
+        else
+        {
+            foreach (var result in allResults)
             {
-                foreach (var problem in result.Problems)
-                    Console.Error.WriteLine($"  Warning: {problem}");
-            }
+                Console.WriteLine($"Scanning {Path.GetFileName(result.Source)}...");
 
-            if (result.PackagesWithSkills.Length == 0)
-            {
-                Console.WriteLine($"  No packages with skills found (scanned {result.TotalPackages} packages).");
-                Console.WriteLine();
-            }
-            else
-            {
-                Console.WriteLine($"  Found {result.PackagesWithSkills.Length} package(s) with skills (of {result.TotalPackages} total):");
-                Console.WriteLine();
-
-                var maxIdLen = result.PackagesWithSkills.Max(p => p.PackageId.Length);
-                var maxVerLen = result.PackagesWithSkills.Max(p => p.Version.Length);
-
-                foreach (var pkg in result.PackagesWithSkills)
+                if (result.Problems is { Length: > 0 })
                 {
-                    var source = pkg.Source switch
-                    {
-                        SkillSource.Local => "[local] ",
-                        SkillSource.Remote => "[remote]",
-                        SkillSource.Readme => "[readme]",
-                        _ => "[??????]",
-                    };
-                    var desc = pkg.Description ?? "(no description)";
-                    var suffix = pkg.Source == SkillSource.Remote && pkg.RemoteRepo is not null
-                        ? $" ({pkg.RemoteRepo.Replace("https://", "")} @ {pkg.RemoteRef ?? "HEAD"})"
-                        : "";
-                    Console.WriteLine($"    {pkg.PackageId.PadRight(maxIdLen)}  {pkg.Version.PadRight(maxVerLen)}  {source}  {desc}{suffix}");
+                    foreach (var problem in result.Problems)
+                        Console.Error.WriteLine($"  Warning: {problem}");
                 }
 
-                Console.WriteLine();
-                Console.WriteLine("  Use 'nuget-skills load <package>' to view a skill.");
-                Console.WriteLine();
+                if (result.PackagesWithSkills.Length == 0)
+                {
+                    Console.WriteLine($"  No packages with skills found (scanned {result.TotalPackages} packages).");
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine($"  Found {result.PackagesWithSkills.Length} package(s) with skills (of {result.TotalPackages} total):");
+                    Console.WriteLine();
+
+                    var maxIdLen = result.PackagesWithSkills.Max(p => p.PackageId.Length);
+                    var maxVerLen = result.PackagesWithSkills.Max(p => p.Version.Length);
+
+                    foreach (var pkg in result.PackagesWithSkills)
+                    {
+                        var source = pkg.Source switch
+                        {
+                            SkillSource.Local => "[local] ",
+                            SkillSource.Remote => "[remote]",
+                            _ => "[??????]",
+                        };
+                        var desc = pkg.Description ?? "(no description)";
+                        var suffix = pkg.Source == SkillSource.Remote && pkg.RemoteRepo is not null
+                            ? $" ({pkg.RemoteRepo.Replace("https://", "")} @ {pkg.RemoteRef ?? "HEAD"})"
+                            : "";
+                        Console.WriteLine($"    {pkg.PackageId.PadRight(maxIdLen)}  {pkg.Version.PadRight(maxVerLen)}  {source}  {desc}{suffix}");
+                    }
+
+                    Console.WriteLine();
+                    Console.WriteLine("  Use 'nuget-skills load <package>' to view a skill.");
+                    Console.WriteLine();
+                }
+
+                if (result.SkippedNonGitHub > 0)
+                    Console.WriteLine($"  Skipped {result.SkippedNonGitHub} package(s): repo not on GitHub.");
             }
 
-            if (result.SkippedNonGitHub > 0)
-                Console.WriteLine($"  Skipped {result.SkippedNonGitHub} package(s): repo not on GitHub.");
-
-            if (settings.EnableRemoteScan && !ghAvailable)
+            if (NuGetSkillsSettings.Load().EnableRemoteScan && !await ToolChecker.IsGhAvailableAsync())
                 Console.WriteLine("  Note: 'gh' CLI not found. Remote skill discovery skipped. Run 'nuget-skills doctor' for details.");
         }
     }

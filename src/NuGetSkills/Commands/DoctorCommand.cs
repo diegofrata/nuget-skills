@@ -44,8 +44,24 @@ public static class DoctorCommand
         Console.WriteLine();
         Console.WriteLine("  Settings:");
         Console.WriteLine($"    Remote scan:     {(settings.EnableRemoteScan ? "enabled" : "disabled")}");
-        Console.WriteLine($"    README fallback: {(settings.EnableReadmeFallback ? "enabled" : "disabled")}");
         Console.WriteLine($"    Config:          {NuGetSkillsSettings.FilePath}");
+
+        var projectConfigPath = ProjectConfigService.FindConfigPath();
+        Console.WriteLine();
+        Console.WriteLine("  Project config:");
+        if (projectConfigPath is not null)
+        {
+            var projectConfig = ProjectConfigService.Load(projectConfigPath);
+            if (projectConfig is { Packages.Length: > 0 })
+                Console.WriteLine($"    Packages:        {projectConfig.Packages.Length} configured ({string.Join(", ", projectConfig.Packages)})");
+            else
+                Console.WriteLine("    Packages:        none configured (no skills will be loaded)");
+            Console.WriteLine($"    Config file:     {projectConfigPath}");
+        }
+        else
+        {
+            Console.WriteLine("    Not configured   (all discovered skills will be loaded)");
+        }
 
         Console.WriteLine();
     }

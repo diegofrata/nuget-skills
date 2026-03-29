@@ -1,6 +1,6 @@
 namespace NuGetSkills.Models;
 
-public enum SkillSource { Local, Remote, Readme }
+public enum SkillSource { Local, Remote }
 
 public record PackageSkillInfo(
     string PackageId,

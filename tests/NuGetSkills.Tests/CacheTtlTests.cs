@@ -22,7 +22,7 @@ public class CacheTtlTests : IDisposable
             PackageId: _packageId,
             Version: Version,
             HasRemoteSkill: false,
-            HasReadme: false,
+
             RepoUrl: null,
             RemoteRef: null,
             SkillPath: null,
@@ -43,7 +43,7 @@ public class CacheTtlTests : IDisposable
             PackageId: _packageId,
             Version: Version,
             HasRemoteSkill: false,
-            HasReadme: false,
+
             RepoUrl: null,
             RemoteRef: null,
             SkillPath: null,
@@ -65,7 +65,7 @@ public class CacheTtlTests : IDisposable
             PackageId: _packageId,
             Version: Version,
             HasRemoteSkill: true,
-            HasReadme: false,
+
             RepoUrl: "https://github.com/test/repo",
             RemoteRef: "v1.0.0",
             SkillPath: "skills/SKILL.md",
@@ -87,7 +87,7 @@ public class CacheTtlTests : IDisposable
             PackageId: _packageId,
             Version: Version,
             HasRemoteSkill: false,
-            HasReadme: true,
+
             RepoUrl: null,
             RemoteRef: null,
             SkillPath: null,

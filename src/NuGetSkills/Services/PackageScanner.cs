@@ -38,14 +38,19 @@ public class PackageScanner
                 if (skillFiles.Length > 0)
                 {
                     var frontmatter = SkillReader.ReadFrontmatter(skillFiles[0]);
-                    skillInfos.Add(new PackageSkillInfo(
-                        PackageId: package.Id,
-                        Version: package.ResolvedVersion,
-                        SkillFiles: skillFiles.Select(Path.GetFileName).ToArray()!,
-                        Name: frontmatter.Name,
-                        Description: frontmatter.Description,
-                        Source: SkillSource.Local));
-                    continue;
+                    if (PackageGlobMatcher.IsMatch(package.Id, frontmatter.Packages))
+                    {
+                        skillInfos.Add(new PackageSkillInfo(
+                            PackageId: package.Id,
+                            Version: package.ResolvedVersion,
+                            SkillFiles: skillFiles.Select(Path.GetFileName).ToArray()!,
+                            Name: frontmatter.Name,
+                            Description: frontmatter.Description,
+                            Source: SkillSource.Local));
+                        continue;
+                    }
+                    // Skill exists locally but its packages field excludes this package —
+                    // fall through to remote scan in case a different skill matches.
                 }
             }
 
@@ -54,7 +59,7 @@ public class PackageScanner
 
         var skippedNonGitHub = 0;
         var remoteResults = await Task.WhenAll(
-            packagesWithoutLocalSkills.Select(p => CheckRemoteAndReadmeAsync(p, refresh, cancellationToken)));
+            packagesWithoutLocalSkills.Select(p => CheckRemoteAsync(p, refresh, cancellationToken)));
 
         foreach (var result in remoteResults)
         {
@@ -74,13 +79,12 @@ public class PackageScanner
             SkippedNonGitHub: skippedNonGitHub);
     }
 
-    private async Task<(PackageSkillInfo? Info, bool Skipped)?> CheckRemoteAndReadmeAsync(
+    private async Task<(PackageSkillInfo? Info, bool Skipped)?> CheckRemoteAsync(
         PackageInfo package, bool refresh, CancellationToken cancellationToken)
     {
         var packageDir = await _cache.GetPackageDirectoryAsync(
             package.Id, package.ResolvedVersion, cancellationToken);
         var nuspec = NuspecParser.Parse(packageDir, package.Id);
-        var hasReadme = File.Exists(Path.Combine(packageDir, Constants.ReadmeFileName));
 
         // Check cache first (unless refresh)
         if (!refresh)
@@ -107,17 +111,6 @@ public class PackageScanner
 
                 if (!isStale)
                 {
-                    if (cached.HasReadme && _settings.EnableReadmeFallback)
-                    {
-                        return (new PackageSkillInfo(
-                            PackageId: package.Id,
-                            Version: package.ResolvedVersion,
-                            SkillFiles: [Constants.ReadmeFileName],
-                            Name: null,
-                            Description: nuspec?.Description ?? "(package README available)",
-                            Source: SkillSource.Readme), false);
-                    }
-
                     return null;
                 }
             }
@@ -167,9 +160,13 @@ public class PackageScanner
 
                 if (found is not null)
                 {
-                    skillPath = found.Path;
-                    description = FrontmatterParser.Parse(found.Content).GetField("description");
-                    hasRemoteSkill = true;
+                    var frontmatter = FrontmatterParser.Parse(found.Content);
+                    if (PackageGlobMatcher.IsMatch(package.Id, frontmatter.GetField("packages")))
+                    {
+                        skillPath = found.Path;
+                        description = frontmatter.GetField("description");
+                        hasRemoteSkill = true;
+                    }
                 }
             }
         }
@@ -178,7 +175,6 @@ public class PackageScanner
             PackageId: package.Id,
             Version: package.ResolvedVersion,
             HasRemoteSkill: hasRemoteSkill,
-            HasReadme: hasReadme,
             RepoUrl: repoUrl,
             RemoteRef: remoteRef,
             SkillPath: skillPath,
@@ -196,17 +192,6 @@ public class PackageScanner
                 Source: SkillSource.Remote,
                 RemoteRepo: repoUrl,
                 RemoteRef: remoteRef), skipped);
-        }
-
-        if (hasReadme && _settings.EnableReadmeFallback)
-        {
-            return (new PackageSkillInfo(
-                PackageId: package.Id,
-                Version: package.ResolvedVersion,
-                SkillFiles: [Constants.ReadmeFileName],
-                Name: null,
-                Description: nuspec?.Description ?? "(package README available)",
-                Source: SkillSource.Readme), skipped);
         }
 
         return skipped ? (null, true) : null;

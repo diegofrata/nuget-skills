@@ -1,6 +1,6 @@
 namespace NuGetSkills.Services;
 
-public record SkillFrontmatter(string? Name, string? Description);
+public record SkillFrontmatter(string? Name, string? Description, string? Packages);
 
 public static class SkillReader
 {
@@ -8,7 +8,7 @@ public static class SkillReader
     {
         var content = File.ReadAllText(filePath);
         var parsed = FrontmatterParser.Parse(content);
-        return new SkillFrontmatter(parsed.GetField("name"), parsed.GetField("description"));
+        return new SkillFrontmatter(parsed.GetField("name"), parsed.GetField("description"), parsed.GetField("packages"));
     }
 
     public static async Task<string> ReadFullAsync(string filePath, CancellationToken cancellationToken = default)

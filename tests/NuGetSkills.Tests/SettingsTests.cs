@@ -5,12 +5,11 @@ namespace NuGetSkills.Tests;
 public class SettingsTests
 {
     [Fact]
-    public void DefaultSettings_BothEnabled()
+    public void DefaultSettings_RemoteScanEnabled()
     {
         var settings = new NuGetSkillsSettings();
 
         Assert.True(settings.EnableRemoteScan);
-        Assert.True(settings.EnableReadmeFallback);
     }
 
     [Fact]
@@ -19,25 +18,6 @@ public class SettingsTests
         var settings = new NuGetSkillsSettings(EnableRemoteScan: false);
 
         Assert.False(settings.EnableRemoteScan);
-        Assert.True(settings.EnableReadmeFallback);
-    }
-
-    [Fact]
-    public void Settings_CanDisableReadme()
-    {
-        var settings = new NuGetSkillsSettings(EnableReadmeFallback: false);
-
-        Assert.True(settings.EnableRemoteScan);
-        Assert.False(settings.EnableReadmeFallback);
-    }
-
-    [Fact]
-    public void Settings_CanDisableBoth()
-    {
-        var settings = new NuGetSkillsSettings(EnableRemoteScan: false, EnableReadmeFallback: false);
-
-        Assert.False(settings.EnableRemoteScan);
-        Assert.False(settings.EnableReadmeFallback);
     }
 
     [Fact]
@@ -48,7 +28,6 @@ public class SettingsTests
 
         Assert.NotNull(settings);
         Assert.True(settings.EnableRemoteScan);
-        Assert.True(settings.EnableReadmeFallback);
     }
 
     [Fact]
