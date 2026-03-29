@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "description": "Discover and load AI coding skills bundled with NuGet packages",
   "author": {
-    "name": "Diego"
+    "name": "Diego Frata"
   },
   "repository": "https://github.com/diegofrata/nuget-skills",
   "license": "MIT",
+  "keywords": ["nuget", "skills", "dotnet", "ai"],
   "skills": "./src/NuGetSkills/Templates/",
   "hooks": "./hooks/hooks.json"
 }

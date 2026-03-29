@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "nuget-skills",
-      "source": ".",
+      "source": "./",
       "description": "Discover and load AI coding skills bundled with NuGet packages. Works with Claude Code, Cursor, Copilot, Codex, Windsurf, Cline, and Goose.",
       "version": "0.1.0"
     }
