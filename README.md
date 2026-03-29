@@ -14,7 +14,7 @@ For the .NET ecosystem, this is the equivalent of what [npm-agentskills](https:/
 
 ## How it works
 
-1. **`nuget-skills init`** installs a meta-skill and a session-start hook for your AI agent
+1. **`nuget-skills install`** installs a meta-skill and a session-start hook for your AI agent
 2. When you start a session, the hook runs **`nuget-skills scan`** automatically
 3. For each NuGet package, it checks three sources in order:
    - **Local** &mdash; `skills/SKILL.md` bundled inside the NuGet package
@@ -30,10 +30,10 @@ dotnet tool install -g nuget-skills
 
 # Initialize in your project (auto-detects installed agents)
 cd your-dotnet-project
-nuget-skills init
+nuget-skills install
 
 # Or specify agents explicitly
-nuget-skills init --agent claude,cursor
+nuget-skills install --agent claude,cursor
 
 # Verify your setup
 nuget-skills doctor
@@ -43,17 +43,19 @@ That's it. Your AI agent will now discover NuGet package skills on session start
 
 ## Commands
 
-### `nuget-skills init`
+### `nuget-skills install`
+
+Installs the discovery skill and session-start hooks for your AI coding agent(s). Installs globally by default.
 
 Installs skills and hooks for your AI coding agent(s).
 
 ```shell
-nuget-skills init                          # Auto-detect agents
-nuget-skills init --agent claude,cursor    # Specific agents
-nuget-skills init --agent all              # All supported agents
-nuget-skills init --global                 # Install to user-level (~/) instead of project
-nuget-skills init --no-remote              # Disable remote skill discovery
-nuget-skills init --no-readme              # Disable README fallback
+nuget-skills install                          # Auto-detect agents
+nuget-skills install --agent claude,cursor    # Specific agents
+nuget-skills install --agent all              # All supported agents
+nuget-skills install --project-level           # Install to current project instead of globally
+nuget-skills install --no-remote              # Disable remote skill discovery
+nuget-skills install --no-readme              # Disable README fallback
 ```
 
 **Auto-detection** checks for agent config directories (`.claude/`, `.cursor/`, etc.) in your project. If none are found, you must specify `--agent`.
@@ -231,8 +233,8 @@ Use `nuget-skills scan --refresh` to bypass the cache.
 Settings are stored alongside the cache. The file is only created when you explicitly opt out of features:
 
 ```shell
-nuget-skills init --no-remote    # Disables remote scan
-nuget-skills init --no-readme    # Disables README fallback
+nuget-skills install --no-remote    # Disables remote scan
+nuget-skills install --no-readme    # Disables README fallback
 ```
 
 Or edit directly:
@@ -252,7 +254,7 @@ For Claude Code users, the tool is also available as a plugin:
 /plugin marketplace add diegofrata/nuget-skills
 ```
 
-This installs the skills and hooks without needing `nuget-skills init --agent claude`.
+This installs the skills and hooks without needing `nuget-skills install --agent claude`.
 
 ## Project types
 

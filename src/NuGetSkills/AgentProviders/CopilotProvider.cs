@@ -15,13 +15,11 @@ public class CopilotProvider : IAgentProvider
             || Directory.Exists(Path.Combine(directory, ".github", "hooks"));
     }
 
-    public void InstallSkills(string baseDir, string metaSkillContent, string builderSkillContent)
+    public void InstallSkill(string baseDir, string skillName, string skillContent)
     {
         var instructionsDir = Path.Combine(baseDir, ".github", "instructions");
         Directory.CreateDirectory(instructionsDir);
-
-        WriteInstructions(instructionsDir, Constants.MetaSkillName, metaSkillContent);
-        WriteInstructions(instructionsDir, Constants.BuilderSkillName, builderSkillContent);
+        WriteInstructions(instructionsDir, skillName, skillContent);
     }
 
     public void InstallHooks(string baseDir)

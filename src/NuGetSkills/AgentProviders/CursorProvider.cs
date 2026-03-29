@@ -13,13 +13,11 @@ public class CursorProvider : IAgentProvider
         return Directory.Exists(Path.Combine(directory, ".cursor"));
     }
 
-    public void InstallSkills(string baseDir, string metaSkillContent, string builderSkillContent)
+    public void InstallSkill(string baseDir, string skillName, string skillContent)
     {
         var rulesDir = Path.Combine(baseDir, ".cursor", "rules");
         Directory.CreateDirectory(rulesDir);
-
-        WriteMdc(rulesDir, Constants.MetaSkillName, metaSkillContent);
-        WriteMdc(rulesDir, Constants.BuilderSkillName, builderSkillContent);
+        WriteMdc(rulesDir, skillName, skillContent);
     }
 
     public void InstallHooks(string baseDir)
